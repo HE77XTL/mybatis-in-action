@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.hcsp.mybatis.myMapper">
+  <select id="getUserByPage" parameterType="HashMap" resultType="User">
+    select id,name,tel,address
+    from user
+    <if test="username != null">
+      where name = #{username}
+    </if>
+    limit #{offset},#{limit}
+  </select>
+
+
+</mapper>

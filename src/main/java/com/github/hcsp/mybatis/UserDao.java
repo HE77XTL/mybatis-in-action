@@ -2,7 +2,12 @@ package com.github.hcsp.mybatis;
 
 import com.github.hcsp.mybatis.entity.Pagination;
 import com.github.hcsp.mybatis.entity.User;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 /** 与用户有关的增删改查操作 */
@@ -22,6 +27,19 @@ public class UserDao {
      * @return 查找结果，若username为null，则返回所有用户的列表
      */
     public Pagination<User> getUserByPage(String username, int pageSize, int pageNum) {
+
+        HashMap<String, Object> paramMap = new HashMap();
+        paramMap.put("username", username);
+        paramMap.put("limit", pageSize);
+        paramMap.put("offset", (pageNum -1 ) * pageSize);
+        List users;
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            System.out.println("paramMap: " + paramMap);
+            users = sqlSession.selectList("getUserByPage", paramMap);
+        }
+
+        System.out.println(users);
+
         return null;
     }
 
