@@ -12,6 +12,6 @@ public class Main {
         InputStream inputStream = Resources.getResourceAsStream(resource);
         UserDao userDao = new UserDao(new SqlSessionFactoryBuilder().build(inputStream));
 
-        userDao.getUserByPage("zhangsan", 0, 6);
+        userDao.getUserByPage(null, 6, 1);
     }
 }

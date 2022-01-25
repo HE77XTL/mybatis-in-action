@@ -12,6 +12,12 @@
     </if>
     limit #{offset},#{limit}
   </select>
+  <select id="countUser" parameterType="String" resultType="int">
+    select count(*) from user
+    <if test="username != null">
+      where name = #{username}
+    </if>
+  </select>
 
 
 </mapper>
