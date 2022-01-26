@@ -18,6 +18,36 @@
       where name = #{username}
     </if>
   </select>
+  <insert id="userBatchInsert" parameterType="Map">
+    insert into USER ( NAME, TEL, ADDRESS ) values
+    <foreach item="user" collection="users" separator=",">
+      ( #{user.name}, #{user.tel}, #{user.address} )
+    </foreach>
+  </insert>
+
+  <update id="updateUser" parameterType="User">
+    update user
+    <set>
+      <if test="name != null">name = #{name}</if>
+      <if test="tel !=null">tel = #{tel}</if>
+      <if test="address != null">address = #{address}</if>
+    </set>
+    where id=#{id}
+  </update>
+
+  <delete id="deleteUser" parameterType="int">
+    delete
+    from USER
+    where id = #{id}
+  </delete>
+
+  <select id="queryUserById" parameterType="int" resultType="User">
+    select * from USER where
+    <if test="id !=null">
+      id=#{id}
+    </if>
+
+  </select>
 
 
 </mapper>

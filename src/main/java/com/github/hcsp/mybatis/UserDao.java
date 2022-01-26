@@ -49,6 +49,11 @@ public class UserDao {
      * @param users 待插入的用户列表
      */
     public void batchInsertUsers(List<User> users) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+            Map<String, List> params = new HashMap();
+            params.put("users", users);
+            sqlSession.insert("userBatchInsert", params);
+        }
     }
 
     /**
@@ -57,6 +62,9 @@ public class UserDao {
      * @param user 要修改的用户信息，其id必须不为null
      */
     public void updateUser(User user) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+            sqlSession.update("updateUser", user);
+        }
     }
 
     /**
@@ -65,6 +73,9 @@ public class UserDao {
      * @param id 待删除的用户ID
      */
     public void deleteUserById(Integer id) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+            sqlSession.update("deleteUser", id);
+        }
     }
 
     /**
@@ -74,6 +85,11 @@ public class UserDao {
      * @return 对应的用户
      */
     public User selectUserById(Integer id) {
-        return null;
+        User user;
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            user = sqlSession.selectOne("queryUserById", id);
+        }
+        return user;
+
     }
 }
