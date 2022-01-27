@@ -34,13 +34,15 @@ public class UserDao {
         paramMap.put("limit", pageSize);
         paramMap.put("offset", (pageNum - 1) * pageSize);
         List users;
-        Integer total;
+        int total;
+        int totalPage;
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             System.out.println("paramMap: " + paramMap);
             users = sqlSession.selectList("getUserByPage", paramMap);
             total = sqlSession.selectOne("countUser", username);
+            totalPage = (total == 0 || pageSize == 0) ? 0 : (int) Math.ceil((double) total / (double) pageSize);
         }
-        return Pagination.pageOf(users, pageSize, pageNum, total);
+        return Pagination.pageOf(users, pageSize, pageNum, totalPage);
     }
 
     /**
